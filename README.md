@@ -17,26 +17,29 @@ A bullet-point list of the ADDITIONAL features you have implemented in the API *
 
 ## API Configuration
 
-Describe any configuration that needs to take place before running the API. For example, creating an `.env` file and what variables to put in it. Give an example of how this might be done.
+Creating an `.env` file.
 
-REMEMBER: DON'T PUT YOUR OWN USERNAMES/PASSWORDS/AUTH KEYS IN THE README OR ON GITHUB, just placeholders as indicated below:
-
+Example below:
 ______________________
-NODEENV=development
+NODE_ENV=development
 PORT=8080
-HOST=
-mongoDB=YourMongoURL
-seedDb=true
-secret=YourJWTSecret
+HOST=localhost
+MONGO_DB=mongodb://host:port/database
+TMDB_KEY=12345678
+SECRET=ThisIsASecret
 ______________________
 
 ## API Design
-Give an overview of your web API design, perhaps similar to the following: 
 
-- /api/movies | GET | Gets a list of movies 
-- /api/movies/{movieid} | GET | Gets a single movie 
-- /api/movies/{movieid}/reviews | GET | Get all reviews for movie 
-- /api/movies/{movieid}/reviews | POST | Create a new review for Movie 
+- /api/movies/genre/{genreid} | GET | Gets movies by a genre
+- /api/movies/tmdb/top-rated | GET | Gets the top rated movies by TMDB
+- /api/movies/tmdb/popular | GET | Gets popular movies by TMDB
+- /api/movies/tmdb/trending | GET | Gets trending movies by TMDB
+- /api/movies/tmdb/movie/{movieid} | GET | Gets movie details by TMDB ID
+- /api/movies/release-date/{releaseDate} | GET | Gets movies by release date
+- /api/movies/watchlist | POST | Create a new watchlist for Movie
+- /api/movies/watchlist | DELETE | Delete a new watchlist for Movie 
+- /api/movies/watchlist/{user} | Get | Get a movie watchlist for a user
 
 If you have your API design on an online platform or graphic, please link to it (e.g. [Swaggerhub](https://app.swaggerhub.com/)).
 
