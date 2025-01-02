@@ -8,7 +8,8 @@ import {
     getPopularMovies,
     getMovieDetails,
     getTrendingMovies
-} from '../tmdb-api';  
+} from '../tmdb-api';
+import Watchlist from './watchlistModel';
 
 const router = express.Router();
 
@@ -91,7 +92,6 @@ router.get('/tmdb/trending', asyncHandler(async (req, res) => {
 }));
 
 // New route to fetch movies by release date range from MongoDB
-// Updated route to fetch movies by a single release date from MongoDB
 router.get('/release-date/:releaseDate', asyncHandler(async (req, res) => {
     const releaseDate = req.params.releaseDate;
     const movies = await movieModel.find({ release_date: releaseDate });
@@ -99,6 +99,46 @@ router.get('/release-date/:releaseDate', asyncHandler(async (req, res) => {
         res.status(200).json(movies);
     } else {
         res.status(404).json({ message: 'No movies found for this release date.', status_code: 404 });
+    }
+}));
+
+// New endpoint to add a movie to the watchlist
+router.post('/watchlist', asyncHandler(async (req, res) => {
+    const { user, movieId, title, poster_path } = req.body;
+
+    if (!user || !movieId || !title) {
+        return res.status(400).json({ message: 'User, movie ID, and title are required.' });
+    }
+
+    const newWatchlistItem = new Watchlist({ user, movieId, title, poster_path });
+    await newWatchlistItem.save();
+    res.status(201).json(newWatchlistItem);
+}));
+
+// New endpoint to remove a movie from the watchlist
+router.delete('/watchlist', asyncHandler(async (req, res) => {
+    const { user, movieId } = req.body;
+
+    if (!user || !movieId) {
+        return res.status(400).json({ message: 'User and movie ID are required.' });
+    }
+
+    const result = await Watchlist.deleteOne({ user: user, movieId: movieId });
+    if (result.deletedCount === 1) {
+        res.status(200).json({ message: 'Movie removed from watchlist.' });
+    } else {
+        res.status(404).json({ message: 'Movie not found in watchlist.', status_code: 404 });
+    }
+}));
+
+// New endpoint to retrieve the user's watchlist
+router.get('/watchlist/:user', asyncHandler(async (req, res) => {
+    const user = req.params.user;
+    const watchlist = await Watchlist.findByUser(user);
+    if (watchlist.length > 0) {
+        res.status(200).json(watchlist);
+    } else {
+        res.status(404).json({ message: 'No watchlist found for this user.', status_code: 404 });
     }
 }));
 
