@@ -3,7 +3,8 @@ import asyncHandler from 'express-async-handler';
 import express from 'express';
 import {
     getUpcomingMovies,
-    getGenres
+    getGenres,
+    getTopRatedMovies
 } from '../tmdb-api';  
 
 const router = express.Router();
@@ -49,5 +50,23 @@ router.get('/tmdb/genres', asyncHandler(async (req, res) => {
     const genres = await getGenres();
     res.status(200).json(genres);
 }));
+
+// New route to fetch top-rated movies from TMDb
+router.get('/tmdb/top-rated', asyncHandler(async (req, res) => {
+    const topRatedMovies = await getTopRatedMovies();
+    res.status(200).json(topRatedMovies);
+}));
+
+// New route to fetch movies by genre from MongoDB
+router.get('/genre/:genreId', asyncHandler(async (req, res) => {
+    const genreId = parseInt(req.params.genreId);
+    const movies = await movieModel.find({ genre_ids: genreId });
+    if (movies.length > 0) {
+        res.status(200).json(movies);
+    } else {
+        res.status(404).json({ message: 'No movies found for this genre.', status_code: 404 });
+    }
+}));
+
 
 export default router;
