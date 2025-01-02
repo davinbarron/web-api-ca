@@ -4,7 +4,10 @@ import express from 'express';
 import {
     getUpcomingMovies,
     getGenres,
-    getTopRatedMovies
+    getTopRatedMovies,
+    getPopularMovies,
+    getMovieDetails,
+    getTrendingMovies
 } from '../tmdb-api';  
 
 const router = express.Router();
@@ -65,6 +68,37 @@ router.get('/genre/:genreId', asyncHandler(async (req, res) => {
         res.status(200).json(movies);
     } else {
         res.status(404).json({ message: 'No movies found for this genre.', status_code: 404 });
+    }
+}));
+
+// New route to fetch popular movies from TMDb
+router.get('/tmdb/popular', asyncHandler(async (req, res) => {
+    const popularMovies = await getPopularMovies();
+    res.status(200).json(popularMovies);
+}));
+
+// New route to fetch movie details by TMDb ID
+router.get('/tmdb/movie/:id', asyncHandler(async (req, res) => {
+    const id = req.params.id;
+    const movieDetails = await getMovieDetails(id);
+    res.status(200).json(movieDetails);
+}));
+
+// New route to fetch trending movies from TMDb
+router.get('/tmdb/trending', asyncHandler(async (req, res) => {
+    const trendingMovies = await getTrendingMovies();
+    res.status(200).json(trendingMovies);
+}));
+
+// New route to fetch movies by release date range from MongoDB
+// Updated route to fetch movies by a single release date from MongoDB
+router.get('/release-date/:releaseDate', asyncHandler(async (req, res) => {
+    const releaseDate = req.params.releaseDate;
+    const movies = await movieModel.find({ release_date: releaseDate });
+    if (movies.length > 0) {
+        res.status(200).json(movies);
+    } else {
+        res.status(404).json({ message: 'No movies found for this release date.', status_code: 404 });
     }
 }));
 
