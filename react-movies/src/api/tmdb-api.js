@@ -302,23 +302,26 @@ export const getMovie = (args) => {
       throw error;
     });
   };
-  
-export const fetchUsers = async () => {
-  const response = await fetch('http://localhost:8080/api/users', {
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      method: 'GET'
-  });
-  return response.json();
-};
 
-export const fetchMovies = async (page = 1, limit = 10) => {
-  const response = await fetch(`http://localhost:8080/api/movies?page=${page}&limit=${limit}`, {
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      method: 'GET'
-  });
-  return response.json();
-};
+  export const login = async (username, password) => {
+      const response = await fetch('http://localhost:8080/api/users', {
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          method: 'post',
+          body: JSON.stringify({ username: username, password: password })
+      });
+      return response.json();
+  };
+  
+  export const signup = async (username, password) => {
+      const response = await fetch('http://localhost:8080/api/users?action=register', {
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          method: 'post',
+          body: JSON.stringify({ username: username, password: password })
+      });
+      return response.json();
+  };
+  
