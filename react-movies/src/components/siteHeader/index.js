@@ -13,11 +13,13 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { ThemesContext } from '../../contexts/themeContext';
 import Switch from "@mui/material/Switch";
+import { AuthContext } from '../../contexts/authContext';
 
 const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
 
 const SiteHeader = ({ history }) => {
   const { toggleDarkMode, toggleDarkTheme } = useContext(ThemesContext);
+  const { isAuthenticated, userName, signout } = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -58,6 +60,16 @@ const SiteHeader = ({ history }) => {
               {toggleDarkMode ? 'Dark Mode' : 'Light Mode'} 
           </Typography> 
           <Switch checked={toggleDarkMode} onChange={toggleDarkTheme} />
+          {isAuthenticated ? ( 
+            <div> 
+              <Typography variant="body1" style={{ margin: '10px' }}> 
+                Welcome {userName}! 
+              </Typography> 
+              <Button color="inherit" onClick={signout}>Sign out</Button> 
+              </div> 
+            ) : ( 
+            <Button color="inherit" onClick={() => navigate('/login')}>Login</Button> 
+            )}
             {isMobile ? (
               <>
                 <IconButton
