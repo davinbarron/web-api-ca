@@ -303,3 +303,22 @@ export const getMovie = (args) => {
     });
   };
   
+export const fetchUsers = async () => {
+  const response = await fetch('http://localhost:8080/api/users', {
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      method: 'GET'
+  });
+  return response.json();
+};
+
+export const fetchMovies = async (page = 1, limit = 10) => {
+  const response = await fetch(`http://localhost:8080/api/movies?page=${page}&limit=${limit}`, {
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      method: 'GET'
+  });
+  return response.json();
+};
