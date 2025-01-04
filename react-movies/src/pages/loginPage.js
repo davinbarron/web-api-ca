@@ -13,10 +13,14 @@ const LoginPage = props => {
 
     const login = async () => {
         try {
-            await context.authenticate(userName, password);
-        }
-        catch (err) {
-            setError("Login failed")
+            const result = await context.authenticate(userName, password);
+            if (result && result.token) {
+                // Success
+            } else {
+                setError("Login failed. Please check your username and password.");
+            }
+        } catch (err) {
+            setError(err.message || "Login failed");
         }
     };
 
