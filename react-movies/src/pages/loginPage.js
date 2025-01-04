@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { AuthContext } from '../contexts/authContext';
 import { Link } from "react-router-dom";
+import { Container, TextField, Button, Typography, Box } from '@mui/material';
 
 const LoginPage = props => {
     const context = useContext(AuthContext);
@@ -22,21 +23,57 @@ const LoginPage = props => {
         return <Navigate to={from} />;
     }
 
+
     return (
-        <>
-            <h2>Login page</h2>
-            <p>You must log in to view the protected pages </p>
-            <input id="username" placeholder="user name" onChange={e => {
-                setUserName(e.target.value);
-            }}></input><br />
-            <input id="password" type="password" placeholder="password" onChange={e => {
-                setPassword(e.target.value);
-            }}></input><br />
-            {/* Login web form  */}
-            <button onClick={login}>Log in</button>
-            <p>Not Registered?
-                <Link to="/signup">Sign Up!</Link></p>
-        </>
+        <Container component="main" maxWidth="xs">
+            <Box
+                sx={{
+                    marginTop: 8,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                }}
+            >
+                <Typography component="h1" variant="h5">
+                    Login
+                </Typography>
+                <Box component="form" noValidate sx={{ mt: 1 }}>
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="username"
+                        label="User Name"
+                        name="username"
+                        autoComplete="username"
+                        autoFocus
+                        onChange={e => setUserName(e.target.value)}
+                    />
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="password"
+                        label="Password"
+                        type="password"
+                        id="password"
+                        autoComplete="current-password"
+                        onChange={e => setPassword(e.target.value)}
+                    />
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
+                        onClick={login}
+                    >
+                        Log In
+                    </Button>
+                    <Typography variant="body2">
+                        Not registered? <Link to="/signup">Sign Up!</Link>
+                    </Typography>
+                </Box>
+            </Box>
+        </Container>
     );
 };
 
