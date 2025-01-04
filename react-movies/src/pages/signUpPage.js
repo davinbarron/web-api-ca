@@ -11,13 +11,17 @@ const SignUpPage = props => {
   const [registered, setRegistered] = useState(false);
   const [error, setError] = useState("");
 
-  const register = () => {
+  const register = async () => {
     let passwordRegEx = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
     const validPassword = passwordRegEx.test(password);
 
     if (validPassword && password === passwordAgain) {
-      context.register(userName, password);
-      setRegistered(true);
+      const success = await context.register(userName, password);
+      if (success) {
+        setRegistered(true);
+      } else {
+        setError("Registration failed")
+      }
     }
     else {
       setError("Passwords do not match or do not meet the requirements")
@@ -40,6 +44,9 @@ const SignUpPage = props => {
         >
             <Typography component="h1" variant="h5">
                 Sign Up
+            </Typography>
+            <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
+                Password must be at least 8 characters long, contain at least one letter, one number, and one special character.
             </Typography>
             <Box component="form" noValidate sx={{ mt: 1 }}>
             {error && <Typography color="error">{error}</Typography>}
