@@ -22,9 +22,10 @@ const SignUpPage = props => {
       } else {
         setError("Registration failed")
       }
-    }
-    else {
-      setError("Passwords do not match or do not meet the requirements")
+    } else if (!validPassword) {
+      setError("Password must be at least 8 characters long, contain at least one letter, one number, and one special character.");
+    } else {
+      setError("Passwords do not match")
     }
   }
 
@@ -44,9 +45,6 @@ const SignUpPage = props => {
         >
             <Typography component="h1" variant="h5">
                 Sign Up
-            </Typography>
-            <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
-                Password must be at least 8 characters long, contain at least one letter, one number, and one special character.
             </Typography>
             <Box component="form" noValidate sx={{ mt: 1 }}>
             {error && <Typography color="error">{error}</Typography>}
