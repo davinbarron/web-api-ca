@@ -19,6 +19,7 @@ import ActorDetailsPage from "./pages/actorDetailsPage";
 import PlaylistPage from "./pages/playlistPage";
 import ThemeContextProvider from "./contexts/themeContext";
 import LoginPage from "./pages/loginPage";
+import SignUpPage from "./pages/signUpPage";
 import AuthContextProvider from "./contexts/authContext";
 import ProtectedRoutes from "./protectedRoutes";
 
@@ -42,6 +43,7 @@ const App = () => {
         <MoviesContextProvider>
           <Routes>
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={ <SignUpPage /> } />
             <Route element={<ProtectedRoutes />}>
               <Route path="/reviews/:id" element={ <MovieReviewPage /> } />
               <Route path="/reviews/form" element={ <AddMovieReviewPage /> } />

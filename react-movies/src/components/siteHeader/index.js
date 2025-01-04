@@ -68,8 +68,11 @@ const SiteHeader = ({ history }) => {
               <Button color="inherit" onClick={signout}>Sign out</Button> 
               </div> 
             ) : ( 
-            <Button color="inherit" onClick={() => navigate('/login')}>Login</Button> 
-            )}
+              <>
+                <Button color="inherit" onClick={() => navigate('/login')}>Login</Button> 
+                <Button color="inherit" onClick={() => navigate('/signup')}>Sign Up</Button>
+              </>
+              )}
             {isMobile ? (
               <>
                 <IconButton
