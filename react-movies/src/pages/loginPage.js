@@ -9,9 +9,15 @@ const LoginPage = props => {
 
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
 
-    const login = () => {
-        context.authenticate(userName, password);
+    const login = async () => {
+        try {
+            await context.authenticate(userName, password);
+        }
+        catch (err) {
+            setError("Login failed")
+        }
     };
 
     let location = useLocation();
@@ -38,6 +44,7 @@ const LoginPage = props => {
                     Login
                 </Typography>
                 <Box component="form" noValidate sx={{ mt: 1 }}>
+                    {error && <Typography color="error">{error}</Typography>}
                     <TextField
                         margin="normal"
                         required
