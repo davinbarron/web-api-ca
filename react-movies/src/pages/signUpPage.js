@@ -9,6 +9,7 @@ const SignUpPage = props => {
   const [password, setPassword] = useState("");
   const [passwordAgain, setPasswordAgain] = useState("");
   const [registered, setRegistered] = useState(false);
+  const [error, setError] = useState("");
 
   const register = () => {
     let passwordRegEx = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
@@ -17,6 +18,9 @@ const SignUpPage = props => {
     if (validPassword && password === passwordAgain) {
       context.register(userName, password);
       setRegistered(true);
+    }
+    else {
+      setError("Passwords do not match or do not meet the requirements")
     }
   }
 
@@ -38,6 +42,7 @@ const SignUpPage = props => {
                 Sign Up
             </Typography>
             <Box component="form" noValidate sx={{ mt: 1 }}>
+            {error && <Typography color="error">{error}</Typography>}
                 <TextField
                     margin="normal"
                     required
