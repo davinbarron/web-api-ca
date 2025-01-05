@@ -111,3 +111,19 @@ export const getMovies = async (page = 1) => {
         throw error;
     }
 };
+
+export const getActors = async () => {
+    try {
+        const response = await fetch(
+            `https://api.themoviedb.org/3/person/popular?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US`
+        );
+
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+
+        return await response.json();
+    } catch (error) {
+        throw error;
+    }
+};

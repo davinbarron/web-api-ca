@@ -8,7 +8,8 @@ import {
     getPopularMovies,
     getMovieDetails,
     getTrendingMovies,
-    getMovies
+    getMovies,
+    getActors
 } from '../tmdb-api';
 import Watchlist from './watchlistModel';
 
@@ -149,5 +150,12 @@ router.get('/tmdb/movies', asyncHandler(async (req, res) => {
     const movies = await getMovies(page);
     res.status(200).json(movies);
 }));
+
+// New endpoint to retrieve the tmdb actors
+router.get('/tmdb/actors', asyncHandler(async (req, res) => {
+    const actors = await getActors();
+    res.status(200).json(actors);
+}));
+
 
 export default router;
