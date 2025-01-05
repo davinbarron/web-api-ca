@@ -33,23 +33,16 @@ export const getMovie = (args) => {
  });
 };
   
-  export const getGenres = () => {
-    return fetch(
-      "https://api.themoviedb.org/3/genre/movie/list?api_key=" +
-        process.env.REACT_APP_TMDB_KEY +
-        "&language=en-US"
-    ).then( (response) => {
-      if (!response.ok) {
-        return response.json().then((error) => {
-          throw new Error(error.status_message || "Something went wrong");
-        });
-      }
-      return response.json();
-    })
-    .catch((error) => {
-      throw error
-   });
-  };
+export const getGenres = async () => {
+  const response = await fetch(
+    'http://localhost:8080/api/movies/tmdb/genres', {
+    headers: {
+      'Authorization': window.localStorage.getItem('token')
+    }
+  });
+  return response.json();
+};
+
   
   export const getMovieImages = ({ queryKey }) => {
     const [, idPart] = queryKey;
@@ -98,37 +91,27 @@ export const getMovie = (args) => {
   };
   
 
-  export const getTopRatedMovies = (page = 1) => { 
-    return fetch( 
-      `https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&page=${page}` 
-    ).then((response) => { 
-      if (!response.ok) { 
-        return response.json().then((error) => { 
-          throw new Error(error.status_message || "Something went wrong"); 
-        }); 
-      } 
-      return response.json(); 
-    })
-    .catch((error) => { 
-      throw error; 
-    }); 
+  export const getTopRatedMovies = async () => {
+    const response = await fetch(
+      'http://localhost:8080/api/movies/tmdb/top-rated', {
+      headers: {
+        'Authorization': window.localStorage.getItem('token')
+      }
+    });
+    return response.json();
   };
+  
 
-  export const getTrendingMovies = (page = 1) => { 
-    return fetch( 
-      `https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.REACT_APP_TMDB_KEY}&page=${page}` 
-    ).then((response) => { 
-      if (!response.ok) { 
-        return response.json().then((error) => { 
-          throw new Error(error.status_message || "Something went wrong"); 
-        }); 
-      } 
-      return response.json(); 
-    })
-    .catch((error) => { 
-      throw error; 
-    }); 
-  }; 
+  export const getTrendingMovies = async () => {
+    const response = await fetch(
+      'http://localhost:8080/api/movies/tmdb/trending', {
+      headers: {
+        'Authorization': window.localStorage.getItem('token')
+      }
+    });
+    return response.json();
+  };
+  
   
   export const getMovieRecommendations = ({ queryKey }) => { 
     const [, { id, page = 1 }] = queryKey; 
