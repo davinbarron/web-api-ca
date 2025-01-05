@@ -4,16 +4,21 @@ Name: Davin Barron
 
 ## Features.
 
-A bullet-point list of the ADDITIONAL features you have implemented in the API **THAT WERE NOT IN THE LABS** (or modifications to existing features)
- 
- + Feature 1 
- + Feature 2 
- + Feature 3 
- + etc
++ Added a movie watchlist feature that allows users to create, delete, and view their personal movie watchlists stored in a new MongoDB collection.
++ Implemented interaction with the TMDB API to fetch top-rated, popular, trending, movies and actors.
++ Have the frontend call our custom API to retireve information from either the TMDB API or the MongoDB database.
++ Created secure API routes using authentication to protect user-specific data with error handling.
 
 ## Setup requirements.
 
-[ Outline any non-standard setup steps necessary to run your app locally after cloning the repo.]
+```
+git clone https://github.com/davinbarron/react-api-ca.git
+cd movies-api
+npm run dev
+cd react-movies
+npm start
+mongod
+```
 
 ## API Configuration
 
@@ -25,8 +30,8 @@ NODE_ENV=development
 PORT=8080
 HOST=localhost
 MONGO_DB=mongodb://host:port/database
-TMDB_KEY=12345678
-SECRET=ThisIsASecret
+TMDB_KEY=your_tmbd_api_key
+SECRET=your_secret_key
 ______________________
 
 ## API Design
@@ -40,17 +45,51 @@ ______________________
 - /api/movies/watchlist | POST | Create a new watchlist for Movie
 - /api/movies/watchlist | DELETE | Delete a new watchlist for Movie 
 - /api/movies/watchlist/{user} | Get | Get a movie watchlist for a user
+- /api/movies/tmdb/movies | GET | Gets the movies by TMDB
+- /api/movies/tmdb/actors | GET | Gets the actors by TMDB
 
-If you have your API design on an online platform or graphic, please link to it (e.g. [Swaggerhub](https://app.swaggerhub.com/)).
+Link to Swagger API graphic: https://app.swaggerhub.com/apis/DavinBarron/wad-api-ca/1.0.0#/
 
 ## Security and Authentication
 
-Give details of authentication/security implemented on the API (e.g. passport/sessions). Indicate which routes are protected.
+The API uses JWT (JSON Web Tokens) for authentication. The user must be logged into a valid account. If they don't already have one they can sign up.
+
+The API contains protected routes that require valid JWT tokens:
+
+- /reviews/:id
+- /reviews/form
+- /movies/favorites
+- /movies/playlist
+- /movies/:id
+- /movies/:id/recommendations
+- /movies/upcoming
+- /movies/top_rated
+- /movies/trending
+- /actors
+- /actors/:id
 
 ## Integrating with React App
 
-Describe how you integrated your React app with the API. List the views that use your Web API instead of the TMDB API. Describe any other updates to the React app from Assignment One.
+The React app makes API calls to the custom backend to retrieve user and movie-related data instead of directly calling the TMDB API.
 
-## Independent learning (if relevant)
++ Custom API Call to TMDB: The backend API fetches data from the TMDB API (e.g., upcoming movies) using a function like getUpcomingMovies(), which makes requests to TMDB with an API key.
++ Custom API Route to TMDB or MongoDB: Routes like /api/movies/tmdb/upcoming and /api/users are created on the backend to handle frontend requests, fetch from TMDB API or fetch data from the MongoDB database, and return the results.
++ Frontend Integration: The React app calls the custom API routes (e.g., http://localhost:8080/api/movies/tmdb/upcoming) to get movie data from either TMDB or MongoDB, using an authorization token for security.
 
-Briefly explain any non-standard features developed for the app.   
+The following views use the custom API instead of directly calling TMDB:
+
+- /movies/upcoming
+- /movies/top_rated
+- /movies/trending
+- /actors
+- /movies/tmdb/genres
+- /login
+- /signup
+- /movies/tmdb/movies
+
+Updates to Assignment One:
+
+- Added an authentication context
+- Created signup and login pages
+- Implemented protected routes
+- Integrated signup and login to the site header
