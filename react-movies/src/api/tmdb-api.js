@@ -1,18 +1,13 @@
-export const getMovies = (page = 1) => {
-  return fetch(
-    `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${page}`
-  ).then((response) => {
-    if (!response.ok) {
-      return response.json().then((error) => {
-        throw new Error(error.status_message || "Something went wrong");
+export const getMovies = async (page = 1) => {
+  const response = await fetch(
+      `http://localhost:8080/api/movies/tmdb/movies?page=${page}`, {
+          headers: {
+              Authorization: window.localStorage.getItem('token'),
+          },
       });
-    }
-    return response.json();
-  })
-  .catch((error) => {
-      throw error
-  });
+  return await response.json();
 };
+
   
 export const getMovie = (args) => {
   //console.log(args)
@@ -302,3 +297,4 @@ export const getGenres = async () => {
       });
       return response.json();
   };
+  

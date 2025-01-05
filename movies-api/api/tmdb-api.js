@@ -95,3 +95,19 @@ export const getTrendingMovies = async () => {
         throw error;
     }
 };
+
+export const getMovies = async (page = 1) => {
+    try {
+        const response = await fetch(
+            `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${page}`
+        );
+
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+
+        return await response.json();
+    } catch (error) {
+        throw error;
+    }
+};
